@@ -27,6 +27,7 @@ test('Can generate a valid json schema', () => {
             thing4: { type: 'string' as 'string' },
         },
         additionalProperties: false,
+        required: ['thing', 'thing2', 'thing3', 'thing4'],
     };
 
     expect(schema).toEqual(expected);

@@ -44,3 +44,48 @@ test('Can validate a deep object', () => {
         fail();
     }
 });
+
+test('Can validate an object cannot be missing a property', () => {
+    const x: any = {
+        a: 'hi',
+        b: 22,
+    };
+
+    const validator = v.object({
+        a: v.string(),
+        b: v.number(),
+        c: v.boolean(),
+    });
+
+    if (validator.isValid(x)) fail();
+    else pass();
+});
+
+test('Can make certain object properties optional', () => {
+    const x: any = {
+        a: 'yellow',
+        b: 22,
+    };
+
+    const validator = v.object({
+        a: v.string(),
+        b: v.number(),
+        c: v.boolean(),
+    }, {
+        optional: ['c'],
+    });
+
+    if (validator.isValid(x)) {
+        pass();
+
+        interface Type {
+            a: string;
+            b: number;
+            c?: boolean;
+        }
+
+        assertTypesEqual<typeof x, Type>();
+    } else {
+        fail();
+    }
+});
