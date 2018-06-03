@@ -44,7 +44,7 @@ export default class Validator<T> {
         return new Validator(v.getSchema());
     }
 
-    static object<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O>(o: O, opts?: ObjectOptions<OptionalKeys>) {
+    static object<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O = never>(o: O, opts?: ObjectOptions<OptionalKeys>) {
         const options: AllRequired<ObjectOptions<OptionalKeys>> = {
             optional: [] as OptionalKeys[],
             ...opts,

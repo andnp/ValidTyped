@@ -15,7 +15,13 @@ test('Can validate an object', () => {
     });
 
     if (validator.isValid(x)) {
-        assertTypesEqual<typeof x, { a: string, b: number, c: boolean }>();
+        interface ExpectedType {
+            a: string;
+            b: number;
+            c: boolean;
+        }
+        assertTypesEqual<typeof x, ExpectedType>();
+        assertTypesEqual<ExpectedType, typeof x>();
         pass();
     } else {
         fail();
