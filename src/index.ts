@@ -66,10 +66,18 @@ export default class Validator<T> {
         });
     }
 
+    static record<T>(types: Validator<T>) {
+        return new Validator<Record<string, T>>({
+            type: 'object',
+            additionalProperties: types.getSchema(),
+        });
+    }
+
     static array<V extends Validator<any>>(v: V[]) {
         return new Validator<Array<UnionValidator<V>>>({
             type: 'array',
             items: v.map(x => x.getSchema()),
+            additionalItems: true,
         });
     }
 
