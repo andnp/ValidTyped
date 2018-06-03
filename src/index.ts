@@ -3,7 +3,7 @@ import { objectKeys, Nominal, AnyFunc, AllRequired, Optional } from 'simplytyped
 import * as Ajv from 'ajv';
 
 type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<{
-    [S in keyof O]: O[S] extends Validator<infer T> ? T : any;
+    [S in keyof O]: O[S] extends Validator<infer X> ? X : any;
 }, OptionalKeys>;
 
 type UnionValidator<V extends Validator<any>> = V extends Validator<infer T> ? T : any;
