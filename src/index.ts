@@ -1,12 +1,16 @@
 import { Schema } from 'type-level-schema/schema';
-import { objectKeys, Nominal, AnyFunc } from 'simplytyped';
+import { objectKeys, Nominal, AnyFunc, AllRequired, Optional } from 'simplytyped';
 import * as Ajv from 'ajv';
 
-type ObjectValidator<O extends Record<string, Validator<any>>> = {
+type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<{
     [S in keyof O]: O[S] extends Validator<infer T> ? T : any;
-};
+}, OptionalKeys>;
 
 type UnionValidator<V extends Validator<any>> = V extends Validator<infer T> ? T : any;
+
+type ObjectOptions<OptionalKeys> = Partial<{
+    optional: OptionalKeys[];
+}>;
 
 const once = <F extends AnyFunc>(f: F): F => {
     let ret: any;
@@ -40,16 +44,25 @@ export default class Validator<T> {
         return new Validator(v.getSchema());
     }
 
-    static object<O extends Record<string, Validator<any>>>(o: O) {
-        const properties = objectKeys(o).reduce((coll, key) => {
-            coll[key as string] = o[key].getSchema();
-            return coll;
-        }, {} as Record<string, Schema>);
+    static object<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O>(o: O, opts?: ObjectOptions<OptionalKeys>) {
+        const options: AllRequired<ObjectOptions<OptionalKeys>> = {
+            optional: [] as OptionalKeys[],
+            ...opts,
+        };
 
-        return new Validator<ObjectValidator<O>>({
+
+        const properties = objectKeys(o).reduce((coll, key) => {
+            coll[key] = o[key].getSchema();
+            return coll;
+        }, {} as Record<keyof O, Schema>);
+
+        const required = Object.keys(o).filter(key => !options.optional.includes(key as OptionalKeys));
+
+        return new Validator<ObjectValidator<O, OptionalKeys>>({
             type: 'object',
             properties,
             additionalProperties: false,
+            required,
         });
     }
 
