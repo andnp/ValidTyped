@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src/",
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "importHelpers": true,
+        "declaration": true,
+        "lib": [
+            "es2015",
+            "es2016",
+            "es2017"
+        ],
+    },
+    "include": [
+        "src/",
+        "tests"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
