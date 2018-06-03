@@ -4,7 +4,12 @@
   "description": "a typescript types validator",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "lint": "tslint --config tslint.json --project . --format stylish",
+    "test": "jest",
+    "tsc": "tsc",
+    "prepush": "npm run -s lint && npm test",
+    "release": "rm -rf dist && npm run tsc && npx semantic-release"
   },
   "jest": {
     "transform": {

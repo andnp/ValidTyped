@@ -42,7 +42,7 @@ export default class Validator<T> {
 
     static object<O extends Record<string, Validator<any>>>(o: O) {
         const properties = objectKeys(o).reduce((coll, key) => {
-            coll[key] = o[key].getSchema();
+            coll[key as string] = o[key].getSchema();
             return coll;
         }, {} as Record<string, Schema>);
 
