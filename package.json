@@ -2,7 +2,8 @@
   "name": "validtyped",
   "version": "0.0.0",
   "description": "a typescript types validator",
-  "main": "index.js",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
@@ -67,5 +68,9 @@
   "bugs": {
     "url": "https://github.com/andnp/ValidTyped/issues"
   },
-  "homepage": "https://github.com/andnp/ValidTyped#readme"
+  "homepage": "https://github.com/andnp/ValidTyped#readme",
+  "files": [
+    "dist/src/",
+    "src/"
+  ]
 }
