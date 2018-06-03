@@ -8,7 +8,7 @@ type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys exte
 
 type UnionValidator<V extends Validator<any>> = V extends Validator<infer T> ? T : any;
 
-type ObjectOptions<OptionalKeys> = Partial<{
+export type ObjectOptions<OptionalKeys> = Partial<{
     optional: OptionalKeys[];
 }>;
 
