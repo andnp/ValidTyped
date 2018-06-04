@@ -3,10 +3,8 @@ import { objectKeys, Nominal, AnyFunc, AllRequired, Optional } from 'simplytyped
 import * as Ajv from 'ajv';
 
 type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<{
-    [S in keyof O]: O[S] extends Validator<infer X> ? X : any;
+    [S in keyof O]: ValidType<O[S]>;
 }, OptionalKeys>;
-
-type UnionValidator<V extends Validator<any>> = V extends Validator<infer T> ? T : any;
 
 export type ObjectOptions<OptionalKeys> = Partial<{
     optional: OptionalKeys[];
@@ -14,9 +12,11 @@ export type ObjectOptions<OptionalKeys> = Partial<{
 
 const once = <F extends AnyFunc>(f: F): F => {
     let ret: any;
+    let called = false;
     return ((...args: any[]) => {
-        if (ret === undefined) {
+        if (!called) {
             ret = f(...args);
+            called = true;
             return ret;
         }
 
@@ -74,7 +74,7 @@ export default class Validator<T> {
     }
 
     static array<V extends Validator<any>>(v: V[]) {
-        return new Validator<Array<UnionValidator<V>>>({
+        return new Validator<Array<ValidType<V>>>({
             type: 'array',
             items: v.map(x => x.getSchema()),
             additionalItems: true,
@@ -82,7 +82,7 @@ export default class Validator<T> {
     }
 
     static union<V extends Validator<any>>(v: V[]) {
-        return new Validator<UnionValidator<V>>({
+        return new Validator<ValidType<V>>({
             oneOf: v.map(x => x.getSchema()),
         });
     }
@@ -102,3 +102,5 @@ export default class Validator<T> {
         return ajv.validate(schema, thing) as boolean;
     }
 }
+
+export type ValidType<V extends Validator<any>> = V extends Validator<infer T> ? T : never;
