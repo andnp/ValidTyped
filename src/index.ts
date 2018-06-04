@@ -61,7 +61,6 @@ export default class Validator<T> {
         return new Validator<ObjectValidator<O, OptionalKeys>>({
             type: 'object',
             properties,
-            additionalProperties: false,
             required,
         });
     }

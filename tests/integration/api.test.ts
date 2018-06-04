@@ -26,7 +26,6 @@ test('Can generate a valid json schema', () => {
             thing3: { type: 'boolean' },
             thing4: { type: 'string' as 'string' },
         },
-        additionalProperties: false,
         required: ['thing', 'thing2', 'thing3', 'thing4'],
     };
 
