@@ -22,5 +22,5 @@ test('Ajv compiles only one instance of schema', () => {
 
     const took = Date.now() - t;
 
-    expect(took).toBeLessThan(1000);
+    expect(took).toBeLessThan(2000);
 });
