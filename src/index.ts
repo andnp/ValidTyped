@@ -1,5 +1,5 @@
-import { Schema } from 'type-level-schema/schema';
-import { objectKeys, Nominal, AnyFunc, AllRequired, Optional } from 'simplytyped';
+import { Schema, SchemaMetaData } from 'type-level-schema/schema';
+import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, Unknown } from 'simplytyped';
 import * as Ajv from 'ajv';
 
 type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<{
@@ -9,6 +9,16 @@ type ObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys exte
 export type ObjectOptions<OptionalKeys> = Partial<{
     optional: OptionalKeys[];
 }>;
+
+export interface ValidResult<T> {
+    data: T;
+    valid: true;
+}
+
+export interface InvalidResult {
+    errors: Ajv.ErrorObject[];
+    valid: false;
+}
 
 const once = <F extends AnyFunc>(f: F): F => {
     let ret: any;
@@ -89,16 +99,37 @@ export default class Validator<T> {
     private constructor(private schema: Schema) {}
 
     private getAjv = once(() => new Ajv());
+    private getCompiledSchema = once(() => {
+        const ajv = this.getAjv();
+        const schema = this.getSchema();
+        return ajv.compile(schema);
+    });
 
     getSchema(): Schema {
         return this.schema;
     }
 
-    isValid(thing: any): thing is T {
-        const schema = this.getSchema();
-        const ajv = this.getAjv();
+    isValid(thing: Unknown): thing is T {
+        const ajvValidator = this.getCompiledSchema();
 
-        return ajv.validate(schema, thing) as boolean;
+        return ajvValidator(thing) as boolean;
+    }
+
+    validate(data: Unknown): ValidResult<T> | InvalidResult {
+        if (this.isValid(data)) {
+            return { data, valid: true };
+        }
+
+        const ajvValidator = this.getCompiledSchema();
+        return { errors: ajvValidator.errors || [], valid: false };
+    }
+
+    setSchemaMetaData(meta: Partial<SchemaMetaData>): this {
+        this.schema = {
+            ...this.schema,
+            ...meta,
+        };
+        return this;
     }
 }
 

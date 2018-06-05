@@ -95,3 +95,26 @@ test('Validates a deep object', () => {
         fail();
     }
 });
+
+test('Can add json schema metadata', () => {
+    const validator = v.object({
+        thing: v.string(),
+    }).setSchemaMetaData({
+        title: 'ThingSchema',
+        description: 'This is a thing schema',
+    });
+
+    const obj: any = { thing: 'hi' };
+    const result = validator.validate(obj);
+    if (result.valid) {
+        expect(result.data).toEqual({ thing: 'hi' });
+    } else {
+        type Got = typeof result;
+        interface Expected {
+            valid: false;
+            errors: Ajv.ErrorObject[];
+        }
+        assertTypesEqual<Got, Expected>();
+        fail();
+    }
+});
