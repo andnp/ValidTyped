@@ -2,11 +2,11 @@ import { Schema, SchemaMetaData } from 'type-level-schema/schema';
 import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, Unknown } from 'simplytyped';
 import * as Ajv from 'ajv';
 
-type ObjectValidator<O extends Record<string, Validator<any>>> = {
+export type ObjectValidator<O extends Record<string, Validator<any>>> = {
     [S in keyof O]: ValidType<O[S]>;
 };
 
-type OptionalObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<ObjectValidator<O>, OptionalKeys>;
+export type OptionalObjectValidator<O extends Record<string, Validator<any>>, OptionalKeys extends keyof O> = Optional<ObjectValidator<O>, OptionalKeys>;
 
 export type ObjectOptions<OptionalKeys> = Partial<{
     optional: OptionalKeys[];
