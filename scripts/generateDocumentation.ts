@@ -147,9 +147,42 @@ const headerString =
 
 A runtime and compile-time type checker library.
 
+At the boundaries of any typescript application, assumptions have to be made about what the expected types are.
+In any scenario when making api calls, an application must either trust that the correct data will be returned or must validate the data given to it.
+
+To maintain these assumptions with TS would require code like:
+\`\`\`typescript
+const schema = {
+    type: 'object',
+    properties: {
+        a: { type: 'string' },
+        b: { type: 'number' },
+    }
+}
+
+interface Thing {
+    a: string;
+    b: number;
+}
+\`\`\`
+
+While this is totally reasonable code, it requires specifying the shape of every object twice.
+
+Because JSON Schema is such a commonly used standard, many amazing JSON Schema validators exist on npm.
+Instead of building yet another validator to compete with these, \`validtyped\` makes use of \`ajv\` for the underlying validation logic.
+As such, this project is simply a thin wrapper over \`ajv\` to bring compile-time typescript types, and run-time JSON Schema types together:
+\`\`\`typescript
+import * as v from 'validtyped';
+
+const schema = v.object({
+    a: v.string(),
+    b: v.number(),
+});
+
+type Thing = v.ValidType<typeof schema>;
+\`\`\`
+
 ---
-
-
 
 `;
 
