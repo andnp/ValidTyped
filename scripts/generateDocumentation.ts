@@ -120,7 +120,7 @@ const generateMarkdown = (fileName: string) => {
                     : '';
 
                 const example = typeInfo.example
-                    ? `#### Example\n ${typeInfo.example}`
+                    ? `###### Example:\n ${typeInfo.example}`
                     : '';
 
                 const parts = [

@@ -6,11 +6,12 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "doc": "ts-node scripts/generateDocumentation.ts > README.md",
+    "commitDocs": "sh scripts/commitDocsIfChanged.sh",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
     "test": "jest",
     "tsc": "tsc",
-    "prepush": "npm run -s lint && npm test",
+    "prepush": "npm run -s lint && npm test && npm run -s commitDocs",
     "release": "rm -rf dist && npm run tsc && npx semantic-release"
   },
   "jest": {
