@@ -4,7 +4,7 @@ import * as Ajv from 'ajv';
 
 import { assertTypesEqual, pass, fail } from '../helpers/assert';
 
-import v from 'index';
+import * as v from 'index';
 
 const ajv = new Ajv();
 

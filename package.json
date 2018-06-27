@@ -5,6 +5,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "doc": "ts-node scripts/generateDocumentation.ts > README.md",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
     "test": "jest",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^7.0.0",
     "@types/jest": "~23.0.0",
+    "@types/node": "^10.3.5",
     "commitlint": "^7.0.0",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
