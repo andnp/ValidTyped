@@ -257,10 +257,7 @@ Acts as a type guard for the encapsulated typescript type.
 import * as v from 'validtyped';
 
 const userIdModel = v.nominal(v.string(), 'userId');
-const userModel = v.object({
-name: v.string(),
-id: userIdModel,
-});
+const userModel = v.object({ name: v.string(), id: userIdModel });
 
 const x: any = getUserData();
 if (userModel.isValid(x)) doThing(x);
