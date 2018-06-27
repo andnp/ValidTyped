@@ -232,8 +232,8 @@ export function partial<T extends Record<string, any>>(v: Validator<T>): Validat
     });
 }
 
-export function array<V extends Validator<any>>(v: V[]) {
-    return new Validator<Array<ValidType<V>>>({
+export function array<T>(v: Validator<T>) {
+    return new Validator<T[]>({
         type: 'array',
         items: v.map(x => x.getSchema()),
         additionalItems: true,

@@ -4,7 +4,7 @@ import { fail, pass, assertTypesEqual } from '../helpers/assert';
 test('Can validate an array', () => {
     const x: any = [21, 22, 23];
 
-    const validator = v.array([ v.number() ]);
+    const validator = v.array(v.number());
 
     if (validator.isValid(x)) {
         assertTypesEqual<typeof x, number[]>();
@@ -21,11 +21,7 @@ test('Can validate a deep array', () => {
         [7, 8, 9],
     ];
 
-    const validator = v.array([
-        v.array([
-            v.number(),
-        ]),
-    ]);
+    const validator = v.array(v.array(v.number()));
 
     if (validator.isValid(x)) {
         assertTypesEqual<typeof x, number[][]>();

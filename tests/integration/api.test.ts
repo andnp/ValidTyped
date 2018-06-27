@@ -65,14 +65,16 @@ test('Generates correct type for validated object', () => {
 
 test('Validates a deep object', () => {
     const validator = v.object({
-        arr: v.array([
-            v.number(),
-            v.object({
-                o: v.object({
-                    a: v.number(),
+        arr: v.array(
+            v.union([
+                v.number(),
+                v.object({
+                    o: v.object({
+                        a: v.number(),
+                    }),
                 }),
-            }),
-        ]),
+            ]),
+        ),
     });
 
     const x: any = {
