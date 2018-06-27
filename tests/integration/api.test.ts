@@ -4,7 +4,7 @@ import * as Ajv from 'ajv';
 
 import { assertTypesEqual, pass, fail } from '../helpers/assert';
 
-import v from 'index';
+import * as v from 'index';
 
 const ajv = new Ajv();
 
@@ -65,14 +65,16 @@ test('Generates correct type for validated object', () => {
 
 test('Validates a deep object', () => {
     const validator = v.object({
-        arr: v.array([
-            v.number(),
-            v.object({
-                o: v.object({
-                    a: v.number(),
+        arr: v.array(
+            v.union([
+                v.number(),
+                v.object({
+                    o: v.object({
+                        a: v.number(),
+                    }),
                 }),
-            }),
-        ]),
+            ]),
+        ),
     });
 
     const x: any = {

@@ -1,4 +1,4 @@
-import v from 'index';
+import * as v from 'index';
 import { fail, pass, assertTypesEqual } from '../helpers/assert';
 
 test('Can validate an object', () => {

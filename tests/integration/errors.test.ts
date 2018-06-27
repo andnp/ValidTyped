@@ -1,4 +1,4 @@
-import v from 'index';
+import * as v from 'index';
 
 test('Will get back array of errors on invalid data', () => {
     const validator = v.object({
