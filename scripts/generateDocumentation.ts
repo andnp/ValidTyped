@@ -144,6 +144,7 @@ const generateMarkdown = (fileName: string) => {
 const headerString =
 `# validtyped
 [![Build Status](https://travis-ci.org/andnp/ValidTyped.svg?branch=master)](https://travis-ci.org/andnp/ValidTyped)
+[![Greenkeeper badge](https://badges.greenkeeper.io/andnp/ValidTyped.svg)](https://greenkeeper.io/)
 
 A runtime and compile-time type checker library.
 
