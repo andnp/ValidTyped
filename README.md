@@ -1,5 +1,5 @@
 # validtyped
-[![Build Status](https://travis-ci.org/andnp/ValidTyped.svg?branch=master)](https://travis-ci.org/andnp/ValidTyped) [![Greenkeeper badge](https://badges.greenkeeper.io/andnp/ValidTyped.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/andnp/ValidTyped.svg?branch=master)](https://travis-ci.org/andnp/ValidTyped)
 
 A runtime and compile-time type checker library.
 
