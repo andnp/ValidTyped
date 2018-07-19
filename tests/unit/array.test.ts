@@ -30,3 +30,14 @@ test('Can validate a deep array', () => {
         fail();
     }
 });
+
+test('Can add JSON Schema options', () => {
+    const x: any = [ 'yellow!' ];
+
+    const validator = v.array(v.any())
+        .withOptions({ minItems: 2 });
+
+    // expect to fail because we have fewer than 2 items
+    if (validator.isValid(x)) fail();
+    else pass();
+});
