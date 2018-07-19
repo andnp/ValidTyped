@@ -35,3 +35,13 @@ test('String is not in enum', () => {
     if (validator.isValid(x)) fail();
     else pass();
 });
+
+test('Can add JSON Schema options', () => {
+    const x: any = '';
+
+    const validator = v.string()
+        .withOptions({ minLength: 1 });
+
+    if (validator.isValid(x)) fail();
+    else pass();
+});

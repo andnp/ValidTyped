@@ -1,6 +1,29 @@
-import { Schema, SchemaMetaData } from 'type-level-schema/schema';
-import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, Unknown, PlainObject } from 'simplytyped';
+import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, Unknown, PlainObject, Omit } from 'simplytyped';
 import * as Ajv from 'ajv';
+
+// Schema definitions
+import { Schema, SchemaMetaData } from 'type-level-schema/schema';
+import { StringSchema } from 'type-level-schema/defs/string';
+import { NumberSchema } from 'type-level-schema/defs/number';
+import { BooleanSchema } from 'type-level-schema/defs/boolean';
+import { ArraySchema } from 'type-level-schema/defs/array';
+import { ObjectSchema } from 'type-level-schema/defs/object';
+
+/**
+ * no-doc - Gets the full schema definition for a given type.
+ */
+export type TypeToSchema<T> =
+    T extends string ? StringSchema :
+    T extends number ? NumberSchema :
+    T extends boolean ? BooleanSchema :
+    T extends any[] ? ArraySchema :
+    T extends object ? ObjectSchema :
+        never;
+
+/**
+ * no-doc - Gets the optional parts of the schema definition for a given type.
+ */
+export type TypeToSchemaOptions<T> = Omit<TypeToSchema<T>, 'type'>;
 
 /**
  * no-doc - Generates an object type from `[string, Validator]` pairs
@@ -178,6 +201,28 @@ export class Validator<T> {
         this.schema = {
             ...this.schema,
             ...meta,
+        };
+        return this;
+    }
+
+    /**
+     * Add additional validations to the generated schema.
+     * While most of these validations are not representable at compile time
+     * with typescript (`minLength` of a `string` for instance), it can be helpful
+     * to have the additional validations when validating runtime types.
+     * @param opts JSON schema specific options (for instance: `{ maxLength: 2, minLength: 0 }`)
+     *
+     * @example
+     * ```typescript
+     * const validator = v.string().withOptions({ minLength: 1 });
+     * validator.isValid(''); // false
+     * validator.isValid('hi'); // true
+     * ```
+     */
+    withOptions(opts: TypeToSchemaOptions<T>): this {
+        this.schema = {
+            ...this.schema,
+            ...opts as any,
         };
         return this;
     }

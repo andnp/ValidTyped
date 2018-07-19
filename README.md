@@ -344,6 +344,22 @@ if (result.valid) doThing(result.data);
 else logger.error(...result.errors);
 ```
 
+### Validator.withOptions
+Add additional validations to the generated schema.
+While most of these validations are not representable at compile time
+with typescript (`minLength` of a `string` for instance), it can be helpful
+to have the additional validations when validating runtime types.
+
+| Param | Description |
+| --- | --- |
+| opts | JSON schema specific options (for instance: `{ maxLength: 2, minLength: 0 }`) |
+###### Example:
+ ```typescript
+const validator = v.string().withOptions({ minLength: 1 });
+validator.isValid(''); // false
+validator.isValid('hi'); // true
+```
+
 ### ValidType
 Returns the encapsulated type of a `Validator` type.
 ###### Example:
