@@ -29,7 +29,8 @@
       "js",
       "ts"
     ],
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^7.0.0",
