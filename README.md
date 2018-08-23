@@ -4,6 +4,34 @@
 
 A runtime and compile-time type checker library.
 
+## Simple Example
+
+```typescript
+import * as v from 'validtyped';
+
+const data: any = /*... some data of unknown type */ {};
+
+const mySchema = v.object({
+    a: v.string(['one', 'two', 'three']),
+    b: v.number(),
+    c: v.object({
+        d: v.array(v.number())
+    }),
+});
+
+if (mySchema.isValid(data)) {
+    // these are typesafe operations
+    data.a.match(/.*/);
+    data.c.d.map(x => x * 2);
+
+    // this is not valid at compile-time
+    data.e + 1;
+}
+
+```
+
+## Why?
+
 At the boundaries of any typescript application, assumptions have to be made about what the expected types are.
 In any scenario when making api calls, an application must either trust that the correct data will be returned or must validate the data given to it.
 
@@ -39,7 +67,7 @@ const schema = v.object({
 type Thing = v.ValidType<typeof schema>;
 ```
 
----
+## Api Docs
 
 ### any
 Creates a validator instance that is _always_ true.
