@@ -41,3 +41,15 @@ test('Can add JSON Schema options', () => {
     if (validator.isValid(x)) fail();
     else pass();
 });
+
+test('Can validate empty array', () => {
+    const x: any = [];
+
+    const validator = v.array(v.number());
+    if (validator.isValid(x)) {
+        assertTypesEqual<typeof x, number[]>();
+        pass();
+    } else {
+        fail();
+    }
+});
