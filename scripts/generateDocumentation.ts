@@ -229,5 +229,5 @@ console.log(markdown);
 
 /** True if this is visible outside this file, false otherwise */
 function isNodeExported(node: tsc.Node): boolean {
-    return (tsc.getCombinedModifierFlags(node) & tsc.ModifierFlags.Export) !== 0 || (!!node.parent && node.parent.kind === tsc.SyntaxKind.SourceFile); // tslint:disable-line no-bitwise
+    return (tsc.getCombinedModifierFlags(node as tsc.Declaration) & tsc.ModifierFlags.Export) !== 0 || (!!node.parent && node.parent.kind === tsc.SyntaxKind.SourceFile); // tslint:disable-line no-bitwise
 }
