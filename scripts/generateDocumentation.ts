@@ -61,11 +61,20 @@ const buildTypeInfoFromNode = (fileName: string, checker: tsc.TypeChecker, node:
         .map(tag => tag.text)
         .filter(text => !!text)[0];
 
+    const cleanedExample = example && example
+        .split('\n')
+        .map(line =>
+            line.trimLeft().startsWith('*')
+                ? line.trimLeft().substr(1).trimLeft()
+                : line
+        )
+        .join('\n');
+
     const typeInfo: TypeInfo = {
+        example: cleanedExample,
         typeName,
         parameterDocs,
         returnDocs: returnDocs[0],
-        example,
         description,
         fileName,
     };
@@ -229,5 +238,5 @@ console.log(markdown);
 
 /** True if this is visible outside this file, false otherwise */
 function isNodeExported(node: tsc.Node): boolean {
-    return (tsc.getCombinedModifierFlags(node) & tsc.ModifierFlags.Export) !== 0 || (!!node.parent && node.parent.kind === tsc.SyntaxKind.SourceFile); // tslint:disable-line no-bitwise
+    return (tsc.getCombinedModifierFlags(node as tsc.Declaration) & tsc.ModifierFlags.Export) !== 0 || (!!node.parent && node.parent.kind === tsc.SyntaxKind.SourceFile); // tslint:disable-line no-bitwise
 }
