@@ -61,11 +61,20 @@ const buildTypeInfoFromNode = (fileName: string, checker: tsc.TypeChecker, node:
         .map(tag => tag.text)
         .filter(text => !!text)[0];
 
+    const cleanedExample = example && example
+        .split('\n')
+        .map(line =>
+            line.trimLeft().startsWith('*')
+                ? line.trimLeft().substr(1).trimLeft()
+                : line
+        )
+        .join('\n');
+
     const typeInfo: TypeInfo = {
+        example: cleanedExample,
         typeName,
         parameterDocs,
         returnDocs: returnDocs[0],
-        example,
         description,
         fileName,
     };

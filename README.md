@@ -274,11 +274,11 @@ A `Validator` will always maintain a valid json schema representation of the typ
 The underlying json schema can always be accessed with `getSchema()`.
 ###### Example:
  ```typescript
-const stringValidator = new Validator<string>({ type: 'string' });
-const numberValidator = new Validator<number>({ type: 'number' });
-const strOrNum = new Validator<string | number>({ oneOf: [ { type: 'string' }, { type: 'number' } ]});
-const strOrNum2 = stringValidator.or(numberValidator);
-```
+ const stringValidator = new Validator<string>({ type: 'string' });
+ const numberValidator = new Validator<number>({ type: 'number' });
+ const strOrNum = new Validator<string | number>({ oneOf: [ { type: 'string' }, { type: 'number' } ]});
+ const strOrNum2 = stringValidator.or(numberValidator);
+ ```
 
 ### Validator.and
 Creates a new validator that is true whenever the data matches `this` _and_ `v`.
