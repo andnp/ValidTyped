@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "ajv": "^6.5.0",
-    "simplytyped": "^1.0.5",
+    "simplytyped": "^2.0.0",
     "type-level-schema": "^1.3.2"
   },
   "repository": {
