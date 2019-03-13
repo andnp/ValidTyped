@@ -1,4 +1,4 @@
-import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, Unknown, PlainObject, Omit } from 'simplytyped';
+import { objectKeys, Nominal, AnyFunc, AllRequired, Optional, PlainObject, Omit } from 'simplytyped';
 import * as Ajv from 'ajv';
 
 // Schema definitions
@@ -152,7 +152,7 @@ export class Validator<T> {
      * if (userModel.isValid(x)) doThing(x);
      * ```
      */
-    isValid(thing: Unknown): thing is T {
+    isValid(thing: unknown): thing is T {
         const ajvValidator = this.getCompiledSchema();
 
         return ajvValidator(thing) as boolean;
@@ -174,7 +174,7 @@ export class Validator<T> {
      * else logger.error(...result.errors);
      * ```
      */
-    validate(data: Unknown): ValidResult<T> | InvalidResult {
+    validate(data: unknown): ValidResult<T> | InvalidResult {
         if (this.isValid(data)) {
             return { data, valid: true };
         }
