@@ -259,6 +259,20 @@ export class Validator<T> {
     and<V extends Validator<any>>(other: V): Validator<T & ValidType<V>> {
         return intersect(this, other);
     }
+
+    /**
+     * Shortcut for `.or(v.nil())` creating a nullable version of this schema.
+     *
+     * @example
+     * ```typescript
+     * import * as v from 'validtyped';
+     *
+     * const nullableString = v.string().orNull();
+     * ```
+     */
+    orNull(): Validator<T | null> {
+        return this.or(nil());
+    }
 }
 
 /**
@@ -337,6 +351,25 @@ export function boolean(): Validator<boolean> {
  */
 export function any(): Validator<any> {
     return new Validator({});
+}
+
+/**
+ * Creates a validator instance that is true when given `null`.
+ *
+ * @example
+ * ```typescript
+ * import * as v from 'validtyped';
+ *
+ * const data : any = getData();
+ *
+ * const validator = v.nil();
+ *
+ * if (validator.isValid(data)) doThing(data); // typeof data => `null`
+ * else throw new Error('oops!'); // typeof data => `any`
+ * ```
+ */
+export function nil(): Validator<null> {
+    return new Validator({ type: 'null' });
 }
 
 /**

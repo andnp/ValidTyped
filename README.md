@@ -132,6 +132,20 @@ if (validator.isValid(data)) doThing(data); // typeof data = `{ a: string, b: nu
 else throw new Error('oops!'); // typeof data = `any`
 ```
 
+### nil
+Creates a validator instance that is true when given `null`.
+###### Example:
+ ```typescript
+import * as v from 'validtyped';
+
+const data : any = getData();
+
+const validator = v.nil();
+
+if (validator.isValid(data)) doThing(data); // typeof data => `null`
+else throw new Error('oops!'); // typeof data => `any`
+```
+
 ### nominal
 Creates a validator instance that passes type checking through to the given validator.
 Operates as an identity function for the runtime `Validator` type, but annotates the compile-time encapsulated `Validator<T>`
@@ -202,8 +216,8 @@ Creates a `Validator` instance that matches on objects with no required keys, bu
 import * as v from 'validtyped';
 
 const validator = v.partial( v.object({
-a: v.string(),
-b: v.number(),
+  a: v.string(),
+  b: v.number(),
 }));
 const data: any = getData();
 
@@ -336,6 +350,15 @@ Creates a new validator that is true whenever the data matches `this` _or_ `v`.
 import * as v from 'validtyped';
 
 const or = v.string().or(v.number()).or(v.boolean()); // string | number | boolean
+```
+
+### Validator.orNull
+Shortcut for `.or(v.nil())` creating a nullable version of this schema.
+###### Example:
+ ```typescript
+import * as v from 'validtyped';
+
+const nullableString = v.string().orNull();
 ```
 
 ### Validator.setSchemaMetaData
