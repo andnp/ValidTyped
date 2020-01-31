@@ -39,7 +39,7 @@
     "commitlint": "8.3.5",
     "husky": "^4.0.2",
     "jest": "^24.0.0",
-    "ts-jest": "^24.0.0",
+    "ts-jest": "^25.1.0",
     "ts-node": "^8.0.3",
     "tslint": "^5.9.1",
     "typescript": "^3.2.4"
